@@ -3,7 +3,7 @@ const CACHE_NAME = "scientific-pranayama-v5";
 const ASSETS = [
   "./",
   "./index.html",
-  "./pranayama.css",
+  "./yoga.css",
   "./app.js",
   "./icon.png",
   "https://cdn.jsdelivr.net/npm/chart.js",
@@ -20,7 +20,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate Service Worker (cleanup old caches)
+// Activate & Cleanup Old Caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -36,7 +36,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch assets
+// Fetch Strategy
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
