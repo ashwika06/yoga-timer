@@ -8,93 +8,99 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="yoga.css">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ffffff">
   <link rel="icon" type="image/png" href="icon.png">
+  <meta name="theme-color" content="#ffffff">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-  <div class="app-container">
 
-    <header>
-      <h2>Scientific Pranayama</h2>
-      <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
-    </header>
+<div class="app-container">
+  
+  <header>
+    <h2>Scientific Pranayama</h2>
+    <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
+  </header>
 
-    <div id="view-dashboard" class="view active">
-      <div class="summary-card">
-        <div class="summary-item">
-          <span class="label">Total Duration</span>
-          <span class="value" id="total-duration-display">00:00</span>
-        </div>
-        <div class="summary-item">
-          <span class="label">Exercises</span>
-          <span class="value" id="selected-count-display">0/9</span>
-        </div>
+  <div id="view-dashboard" class="view active">
+    
+    <div class="summary-card">
+      <div class="summary-item">
+        <span class="label">Total Duration</span>
+        <span class="value" id="total-duration-display">00:00</span>
       </div>
-
-      <div class="master-list-header">
-        <h4>Master Sequence</h4>
-        <button class="btn-text" onclick="toggleAll(true)">Select All</button>
-        <button class="btn-text" onclick="toggleAll(false)">Clear</button>
-      </div>
-
-      <ul id="master-list" class="checklist"></ul>
-
-      <div class="setting-row">
-        <label>Cooldown between steps (sec):</label>
-        <input type="number" id="cooldown-input" value="10" class="time-input small-input">
-      </div>
-
-      <button class="btn-primary" onclick="startPractice()">▶ Begin Practice</button>
-    </div>
-
-    <div id="view-timer" class="view hidden">
-      <div class="timer-display">
-        <div class="progress-ring-container">
-          <svg class="progress-ring" width="260" height="260">
-            <circle class="progress-ring__circle-bg" stroke="#e5e7eb" stroke-width="12" fill="transparent" r="120" cx="130" cy="130"/>
-            <circle class="progress-ring__circle" stroke="#4F46E5" stroke-width="12" fill="transparent" r="120" cx="130" cy="130"/>
-          </svg>
-          <div class="timer-content">
-            <h3 id="current-name">Prepare</h3>
-            <h1 id="timer-display">00:00</h1>
-            <p id="next-up-display"></p>
-          </div>
-        </div>
-      </div>
-
-      <div id="sequence-map" class="sequence-dots"></div>
-
-      <div class="controls-row">
-        <button class="btn-danger" onclick="stopSession()">⏹ End Session</button>
+      <div class="summary-item">
+        <span class="label">Exercises</span>
+        <span class="value" id="selected-count-display">0/9</span>
       </div>
     </div>
 
-    <div id="view-analytics" class="view hidden">
-      <h3>Progress Analytics</h3>
-      <div class="chart-container">
-        <canvas id="weeklyChart"></canvas>
+    <div class="master-list-header">
+      <h4>Master Sequence</h4>
+      <div>
+        <button class="btn-text" id="btn-select-all">Select All</button>
+        <button class="btn-text" id="btn-clear-all">Clear</button>
       </div>
-
-      <h4>Recent Logs</h4>
-      <ul id="history-log-list" class="log-list"></ul>
-
-      <button class="btn-secondary" onclick="clearHistory()">Reset Data</button>
     </div>
 
-    <nav class="bottom-nav">
-      <button class="nav-btn active" onclick="switchView('view-dashboard')">
-        <span>📋</span> Setup
-      </button>
-      <button class="nav-btn" onclick="switchView('view-analytics')">
-        <span>📊</span> History
-      </button>
-    </nav>
+    <ul id="master-list" class="checklist">
+      </ul>
 
+    <div class="setting-row">
+      <label for="cooldown-input">Cooldown (sec):</label>
+      <input type="number" id="cooldown-input" value="10" class="time-input small-input">
+    </div>
+
+    <button id="btn-start" class="btn-primary">▶ Begin Practice</button>
   </div>
 
-  <script src="app.js"></script>
+  <div id="view-timer" class="view hidden">
+    <div class="timer-display">
+      <div class="progress-ring-container">
+        <svg class="progress-ring" width="260" height="260">
+          <circle class="progress-ring__circle-bg" stroke="#e5e7eb" stroke-width="12" fill="transparent" r="120" cx="130" cy="130"/>
+          <circle class="progress-ring__circle" stroke="#4F46E5" stroke-width="12" fill="transparent" r="120" cx="130" cy="130"/>
+        </svg>
+        
+        <div class="timer-content">
+          <h3 id="current-name">Prepare</h3>
+          <h1 id="timer-display">00:00</h1>
+          <p id="next-up-display"></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="sequence-map" class="sequence-dots"></div>
+
+    <div class="controls-row">
+      <button id="btn-stop" class="btn-danger">⏹ End Session</button>
+    </div>
+  </div>
+
+  <div id="view-analytics" class="view hidden">
+    <h3>Progress Analytics</h3>
+    <div class="chart-container">
+      <canvas id="weeklyChart"></canvas>
+    </div>
+
+    <h4>Recent Logs</h4>
+    <ul id="history-log-list" class="log-list"></ul>
+    
+    <button id="btn-reset-data" class="btn-secondary">Reset Data</button>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-setup">
+      <span>📋</span> Setup
+    </button>
+    <button class="nav-btn" id="nav-history">
+      <span>📊</span> History
+    </button>
+  </nav>
+
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>

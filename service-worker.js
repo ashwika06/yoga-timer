@@ -1,46 +1,38 @@
-const CACHE_NAME = "scientific-pranayama-v5";
-
+const CACHE_NAME = "pranayama-v6-robust";
 const ASSETS = [
   "./",
   "./index.html",
   "./yoga.css",
   "./app.js",
   "./icon.png",
-  "https://cdn.jsdelivr.net/npm/chart.js",
+  "https://cdn.jsdelivr.net/npm/chart.js", 
   "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
 ];
 
-// Install Service Worker
 self.addEventListener("install", (event) => {
+  self.skipWaiting(); // Force activation
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("Caching assets");
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 
-// Activate & Cleanup Old Caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            console.log("Deleting old cache:", key);
-            return caches.delete(key);
-          }
+          if (key !== CACHE_NAME) return caches.delete(key);
         })
       );
     })
   );
+  self.clients.claim(); // Take control immediately
 });
 
-// Fetch Strategy
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
+    caches.match(event.request).then((cached) => {
+      return cached || fetch(event.request);
     })
   );
 });
